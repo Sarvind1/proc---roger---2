@@ -1,10 +1,3 @@
-# Environment variables
-.env
-.env.local
-.env.*.local
-.env.*
-*.env
-
 # Python
 __pycache__/
 *.py[cod]
@@ -38,65 +31,59 @@ ENV/
 env.bak/
 venv.bak/
 
-# IDEs and editors
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.DS_Store
-Thumbs.db
-
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-*.local
-
-# Build output
-dist/
-dist-ssr/
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.*.py
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Database files
 *.db
 *.sqlite
 *.sqlite3
 
-# CSV templates and test data
-templates/*.csv
-test_data/
+# Node / Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Logs
-logs/
-*.log
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*~
 
 # OS files
 .DS_Store
 .AppleDouble
 .LSOverride
 Thumbs.db
-ehthumbs.db
 
-# IDE
-.vscode/*
-!.vscode/extensions.json
-.idea/
-.vscode/
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
+# Logs
+logs/
+*.log
 
 # Celery
 celerybeat-schedule
+dump.rdb
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# Test data / templates
+proco/templates/*.csv
+proco/test.db

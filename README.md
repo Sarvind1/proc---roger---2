@@ -1,110 +1,139 @@
 # Procurement System
 
-A full-stack procurement and inventory management platform with Amazon SP-API integration. Manage products, purchase orders, suppliers, and inventory with CSV import/export capabilities and real-time Amazon synchronization.
+A full-stack procurement and inventory management platform with Amazon Seller Central integration. Manage products, purchase orders, inventory movements, and supplier relationships while syncing data with Amazon's Selling Partner API.
 
-## Features
+## Key Features
 
-- **Product & Inventory Management** — Track SKUs, pricing, costs, and inventory levels with movement history
-- **Purchase Order System** — Create, track, and manage POs with supplier integration
-- **Supplier Management** — Centralized supplier database with contact and payment information
-- **Amazon Integration** — Sync orders, inventory, and product data directly from Amazon SP-API
-- **CSV Import/Export** — Bulk import products and inventory from CSV files
-- **User Authentication** — JWT-based authentication with role-based access control (admin/user)
-- **Task Scheduling** — Celery-based background jobs for automated syncs and imports
-- **REST API** — Comprehensive API with auto-generated Swagger docs
+- **Inventory Management**: Track stock levels, movements, and inventory adjustments
+- **Product Management**: Manage SKUs, ASINs, pricing, and product metadata
+- **Purchase Orders**: Create and manage POs with multiple items and suppliers
+- **Supplier Management**: Maintain supplier contacts, addresses, and communication details
+- **Amazon Integration**: Sync orders, inventory, and product data with Amazon SP-API
+- **CSV Import/Export**: Bulk import products, inventory movements, and POs from CSV
+- **User Authentication**: JWT-based auth with role-based access (admin/user)
+- **Real-time Updates**: Celery task queue for async data syncing and imports
 
 ## Tech Stack
 
 **Backend:**
-- FastAPI (REST API framework)
+- FastAPI (Python web framework)
 - SQLAlchemy (ORM)
-- SQLite/PostgreSQL (database)
-- Celery (task queue)
-- Pydantic (data validation)
-- python-jose (JWT authentication)
-- sp-api-python (Amazon SP-API client)
-- pandas (CSV processing)
+- SQLite (development database)
+- Celery (async task queue)
+- Amazon SP-API SDK
+- JWT/OAuth2 authentication
 
 **Frontend:**
 - React 18 + TypeScript
 - Vite (build tool)
-- TailwindCSS (styling)
-- Axios (HTTP client)
+- Tailwind CSS (styling)
+- React Router (navigation)
 
 ## Setup
 
 ### Backend
 
-```bash
-cd proco
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+1. Navigate to the backend directory:
+   ```bash
+   cd proco
+   ```
 
-Create a `.env` file with required variables:
-```
-DATABASE_URL=sqlite:///./test.db
-SECRET_KEY=your-secret-key-here
-AMAZON_REFRESH_TOKEN=your-token
-AMAZON_CLIENT_ID=your-client-id
-AMAZON_CLIENT_SECRET=your-client-secret
-AWS_ACCESS_KEY=your-access-key
-AWS_SECRET_KEY=your-secret-key
-```
+2. Create and activate a virtual environment:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
-Initialize the database:
-```bash
-python scripts/init_db.py
-python scripts/seed_data.py
-```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Start the API:
-```bash
-uvicorn app.main:app --reload
-```
+4. Configure environment variables in `.env`:
+   ```
+   DATABASE_URL=sqlite:///./test.db
+   SECRET_KEY=your-secret-key
+   AMAZON_CLIENT_ID=your-client-id
+   AMAZON_CLIENT_SECRET=your-client-secret
+   AMAZON_REFRESH_TOKEN=your-refresh-token
+   AWS_ACCESS_KEY=your-aws-key
+   AWS_SECRET_KEY=your-aws-secret
+   ```
+
+5. Initialize the database:
+   ```bash
+   python scripts/init_db.py
+   python scripts/seed_data.py
+   ```
+
+6. Start the API server:
+   ```bash
+   uvicorn app.main:app --reload --port 8000
+   ```
+
+API docs available at `http://localhost:8000/docs`
 
 ### Frontend
 
-```bash
-cd procurement-frontend
-npm install
-npm run dev
-```
+1. Navigate to the frontend directory:
+   ```bash
+   cd procurement-frontend
+   ```
 
-The frontend will be available at `http://localhost:5173`
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+Frontend available at `http://localhost:5173`
 
 ## Usage
 
-1. **Login** — Use credentials from seed data (admin/admin123 or user/user123)
-2. **Import Products** — Use Import/Export page to upload product CSV files
-3. **Manage Inventory** — Track inventory levels and movements on the Inventory page
-4. **Amazon Sync** — Configure Amazon integration and sync orders/inventory
-5. **Purchase Orders** — Create and manage purchase orders with suppliers
+1. **Login** with default credentials (set up during seeding):
+   - Username: `admin` / Password: `admin123`
+   - Username: `user` / Password: `user123`
 
-## API Documentation
+2. **Dashboard**: View inventory overview and key metrics
 
-Once running, visit `http://localhost:8000/docs` for interactive Swagger documentation.
+3. **Products**: Add/edit products with SKU, ASIN, pricing, and stock levels
+
+4. **Purchase Orders**: Create POs from suppliers and track items
+
+5. **Inventory**: Monitor stock movements and adjust quantities
+
+6. **Amazon Integration**: Configure Amazon credentials and sync orders/inventory
+
+7. **Import/Export**: Use CSV templates to bulk import/export data
 
 ## Project Structure
 
 ```
 proco/                          # Backend API
 ├── app/
-│   ├── api/v1/                 # API routes
-│   ├── models/                 # Database models
-│   ├── schemas/                # Request/response schemas
-│   ├── core/                   # Config, security, database
-│   ├── integrations/           # External API integrations
-│   └── tasks/                  # Celery background tasks
-├── scripts/                    # Initialization and utilities
+│   ├── api/v1/                # API endpoints
+│   ├── integrations/          # Amazon SP-API and CSV import
+│   ├── models/                # Database models
+│   ├── schemas/               # Request/response schemas
+│   ├── tasks/                 # Celery background tasks
+│   └── core/                  # Configuration and security
+├── scripts/                   # Database initialization and seeding
 └── requirements.txt
 
-procurement-frontend/           # React UI
+procurement-frontend/          # React Frontend
 ├── src/
-│   ├── pages/                  # Route pages
-│   ├── components/             # Reusable UI components
-│   ├── services/               # API service clients
-│   └── lib/                    # Utilities and helpers
+│   ├── pages/                # Page components
+│   ├── components/           # Reusable UI components
+│   ├── services/             # API client services
+│   ├── layouts/              # Layout components
+│   └── lib/                  # Utilities
 └── package.json
 ```
+
+## License
+
+Proprietary
